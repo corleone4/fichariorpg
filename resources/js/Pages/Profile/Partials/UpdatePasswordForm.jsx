@@ -48,20 +48,11 @@ export default function UpdatePasswordForm({ className = '' }) {
         <section className={className}>
             <header>
                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-<<<<<<< HEAD
                     Atualizar a Senha
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     Tenha certeza de que sua conta está usando uma senha longa e única para permanecer segura.
-=======
-                    Update Password
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Ensure your account is using a long, random password to stay
-                    secure.
->>>>>>> 6b0bbc8329878765d473aea05ea15ec8c9b3090c
                 </p>
             </header>
 
@@ -69,11 +60,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 <div>
                     <InputLabel
                         htmlFor="current_password"
-<<<<<<< HEAD
                         value="Senha Atual"
-=======
-                        value="Current Password"
->>>>>>> 6b0bbc8329878765d473aea05ea15ec8c9b3090c
                     />
 
                     <TextInput
@@ -95,11 +82,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 </div>
 
                 <div>
-<<<<<<< HEAD
                     <InputLabel htmlFor="password" value="Nova Senha" />
-=======
-                    <InputLabel htmlFor="password" value="New Password" />
->>>>>>> 6b0bbc8329878765d473aea05ea15ec8c9b3090c
 
                     <TextInput
                         id="password"
@@ -117,11 +100,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 <div>
                     <InputLabel
                         htmlFor="password_confirmation"
-<<<<<<< HEAD
                         value="Confirme sua Senha"
-=======
-                        value="Confirm Password"
->>>>>>> 6b0bbc8329878765d473aea05ea15ec8c9b3090c
                     />
 
                     <TextInput
@@ -142,11 +121,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 </div>
 
                 <div className="flex items-center gap-4">
-<<<<<<< HEAD
                     <PrimaryButton disabled={processing}>Salvar</PrimaryButton>
-=======
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
->>>>>>> 6b0bbc8329878765d473aea05ea15ec8c9b3090c
 
                     <Transition
                         show={recentlySuccessful}
@@ -156,11 +131,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                         leaveTo="opacity-0"
                     >
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-<<<<<<< HEAD
                             Senha atualizada.
-=======
-                            Saved.
->>>>>>> 6b0bbc8329878765d473aea05ea15ec8c9b3090c
                         </p>
                     </Transition>
                 </div>

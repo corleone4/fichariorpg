@@ -1,8 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<<<<<<< HEAD
-=======
+
 
 .work-sans {
     font-family: 'Work Sans', sans-serif;
@@ -54,4 +53,4 @@
 #carousel-3:checked ~ .control-3 ~ .carousel-indicators li:nth-child(3) .carousel-bullet {
     color: #000;
 }
->>>>>>> 6b0bbc8329878765d473aea05ea15ec8c9b3090c
+
