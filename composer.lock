@@ -1405,23 +1405,6 @@
         },
         {
             "name": "laravel/sanctum",
-            "version": "v4.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/sanctum.git",
-                "reference": "ec1dd9ddb2ab370f79dfe724a101856e0963f43c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sanctum/zipball/ec1dd9ddb2ab370f79dfe724a101856e0963f43c",
-                "reference": "ec1dd9ddb2ab370f79dfe724a101856e0963f43c",
-
-                "source": "https://github.com/laravel/prompts/tree/v0.3.3"
-            },
-            "time": "2024-12-30T15:53:31+00:00"
-        },
-        {
-            "name": "laravel/sanctum",
             "version": "v4.0.7",
             "source": {
                 "type": "git",

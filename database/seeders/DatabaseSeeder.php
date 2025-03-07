@@ -17,9 +17,5 @@ class DatabaseSeeder extends Seeder
             ['email' => 'luan@teste.com'], 
             ['name' => 'Luan Henrique','email' => 'luan@teste.com', 'password' => '1234!']);
 
-        User::firstOrCreate(
-            ['email' => 'rosi@teste.com'], 
-            ['name' => 'Rosicleia','email' => 'rosi@teste.com', 'password' => '1234!']);
-
     }
 }

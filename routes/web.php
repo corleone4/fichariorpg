@@ -18,6 +18,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('new_sheet', function(){
+    return Inertia::render('NewSheet');
+})->middleware(['auth', 'verified'])->name("new_sheet");
+
 Route::get('/teste', function () {
     return Inertia::render('Teste');
 })->middleware(['auth', 'verified'])->name('teste');
