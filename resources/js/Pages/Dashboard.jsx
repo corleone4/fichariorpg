@@ -18,12 +18,12 @@ export default function Dashboard() {
                         >
                             Criar Ficha
                         </Link>
-                        {/* <Link
+                        <Link
                             href={route("sheets")}
-                            className="block w-full bg-blue-500 hover:bg-blue-600 text-white text-center text-xl font-semibold px-6 py-4 rounded-lg shadow transition"
+                            className="block w-full  bg-green-500 hover:bg-green-600 text-white text-center text-xl font-semibold px-6 py-4 rounded-lg shadow transition"
                         >
                             Visualizar Fichas
-                        </Link> */}
+                        </Link>
                     </div>
                 </div>
                 <div className="w-full max-w-6xl mt-5 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">

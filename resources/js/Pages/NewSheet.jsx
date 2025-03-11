@@ -4,8 +4,11 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, useForm } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function NewSheet() {
+    const [remainingPoints, setRemainingPoints] = useState(30); // Exempl
+
     const { data, setData, post, processing, errors, reset } = useForm({
         c_name: "",
         c_age: "",
@@ -13,13 +16,13 @@ export default function NewSheet() {
         c_race: "",
         c_origin: "",
         c_class: "",
-        c_str: "",
-        c_dex: "",
-        c_vig: "",
-        c_dis: "",
-        c_know: "",
-        c_cat: "",
-        c_spi: "",
+        c_str: 10,
+        c_dex: 10,
+        c_vig: 10,
+        c_dis: 10,
+        c_know: 10,
+        c_cat: 10,
+        c_spi: 10,
     });
 
     const races = [
@@ -42,39 +45,25 @@ export default function NewSheet() {
         "Suraggels (Sulfure)",
         "Trog",
     ];
-    const origins = [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "0",
-    ];
+    const origins = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
+    const classes = [
+        "10",
+        "29",
+        "39",
+        "48",
+        "56",
+        "645",
+        "73",
+        "82",
+        "95",
+        "01",
+    ];
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("register"), {
-            onFinish: () =>
-                reset(
-                    "c_name",
-                    "c_age",
-                    "c_level",
-                    "c_race",
-                    "c_origin",
-                    "c_class",
-                    "c_str",
-                    "c_dex",
-                    "c_vig",
-                    "c_dis",
-                    "c_know",
-                    "c_cat",
-                    "c_sp:"
-                ),
+        post(route("sheets.create"), {
+            onFinish: () => reset(),
         });
     };
 
@@ -226,6 +215,38 @@ export default function NewSheet() {
                                             ))}
                                         </select>
                                     </div>
+                                    {/* Classes */}
+                                    <div className="col-span-2 md:col-span-1">
+                                        <InputLabel
+                                            htmlFor="c_class"
+                                            value="Classe"
+                                        />
+                                        <select
+                                            id="c_class"
+                                            name="c_class"
+                                            value={data.c_class}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "c_class",
+                                                    e.target.value
+                                                )
+                                            }
+                                            className="mt-1 w-full border-gray-300 dark:border-gray-400 dark:text-gray-400 dark:focus:dark:text-gray-500 dark:bg-transparent rounded-md shadow-sm"
+                                            required
+                                        >
+                                            <option value="">
+                                                Selecione uma classe
+                                            </option>
+                                            {classes.map((classes, index) => (
+                                                <option
+                                                    key={index}
+                                                    value={classes}
+                                                >
+                                                    {classes}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -243,15 +264,36 @@ export default function NewSheet() {
                                     { id: "c_spi", name: "Espírito" },
                                 ].map((attr) => (
                                     <div key={attr.id} className="w-full">
+                                        <label
+                                            htmlFor={attr.id}
+                                            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                        >
+                                            {attr.name}
+                                        </label>
                                         <TextInput
                                             id={attr.id}
-                                            type="text"
+                                            type="number"
                                             name={attr.id}
-                                            placeholder={attr.name}
-                                            className="w-full text-center text-xl h-20 p-2"
+                                            value={data[attr.id]}
+                                            onChange={(e) => {
+                                                const value =
+                                                    parseInt(e.target.value) ||
+                                                    10;
+                                                setData(attr.id, value);
+
+                                                if (value === 12) {
+                                                    setRemainingPoints(
+                                                        (prev) => prev - 2
+                                                    );
+                                                }
+                                            }}
+                                            className="w-full text-center text-xl h-20 p-2 appearance-none"
                                         />
                                     </div>
                                 ))}
+                            </div>
+                            <div className="grid gap-4">
+                                <p> Pontos restantes: {remainingPoints}</p>
                             </div>
                         </div>
                     </div>

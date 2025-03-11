@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\NewSheetController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -18,13 +20,21 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('new_sheet', function(){
+Route::get('/new_sheet', function () {
     return Inertia::render('NewSheet');
 })->middleware(['auth', 'verified'])->name("new_sheet");
 
-Route::get('/teste', function () {
-    return Inertia::render('Teste');
-})->middleware(['auth', 'verified'])->name('teste');
+Route::get('/sheets', [NewSheetController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('sheets'); // Essa rota agora carrega as fichas do banco!
+
+Route::get('/new_sheet', function () {
+    return Inertia::render('NewSheet');
+})->middleware(['auth', 'verified'])->name("new_sheet");
+
+Route::post('/sheet_create', [NewSheetController::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('sheets.create');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,4 +42,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
