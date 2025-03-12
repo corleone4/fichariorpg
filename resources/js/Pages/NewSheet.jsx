@@ -6,8 +6,8 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, useForm } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function NewSheet() {
-    const [remainingPoints, setRemainingPoints] = useState(30); // Exempl
+export default function NewSheet({ classes, origins, races }) {
+    const [remainingPoints, setRemainingPoints] = useState(30);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         c_name: "",
@@ -25,40 +25,26 @@ export default function NewSheet() {
         c_spi: 10,
     });
 
-    const races = [
-        "Humano",
-        "Anão",
-        "Dahllan",
-        "Elfo",
-        "Goblin",
-        "Lefou",
-        "Minotauro",
-        "Qareen",
-        "Golem",
-        "Hynne",
-        "Kliren",
-        "Medusa",
-        "Osteon",
-        "Sereia/Tritão",
-        "Sílfide",
-        "Suraggels (Aggelus)",
-        "Suraggels (Sulfure)",
-        "Trog",
-    ];
-    const origins = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-
-    const classes = [
-        "10",
-        "29",
-        "39",
-        "48",
-        "56",
-        "645",
-        "73",
-        "82",
-        "95",
-        "01",
-    ];
+    // const races = [
+    //     "Humano",
+    //     "Anão",
+    //     "Dahllan",
+    //     "Elfo",
+    //     "Goblin",
+    //     "Lefou",
+    //     "Minotauro",
+    //     "Qareen",
+    //     "Golem",
+    //     "Hynne",
+    //     "Kliren",
+    //     "Medusa",
+    //     "Osteon",
+    //     "Sereia/Tritão",
+    //     "Sílfide",
+    //     "Suraggels (Aggelus)",
+    //     "Suraggels (Sulfure)",
+    //     "Trog",
+    // ];
 
     const submit = (e) => {
         e.preventDefault();
@@ -152,7 +138,7 @@ export default function NewSheet() {
 
                                     {/* Raça */}
                                     <div className="col-span-2 md:col-span-1">
-                                        <InputLabel
+                                    <InputLabel
                                             htmlFor="c_race"
                                             value="Raça"
                                         />
@@ -172,20 +158,26 @@ export default function NewSheet() {
                                             <option value="">
                                                 Selecione uma raça
                                             </option>
-                                            {races.map((race, index) => (
-                                                <option
-                                                    key={index}
-                                                    value={race}
-                                                >
-                                                    {race}
+                                            {races && races.length > 0 ? (
+                                                races.map((race) => (
+                                                    <option
+                                                        key={race.id}
+                                                        value={race.name}
+                                                    >
+                                                        {race.name}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>
+                                                    Carregando raças...
                                                 </option>
-                                            ))}
+                                            )}
                                         </select>
                                     </div>
 
                                     {/* Origem */}
                                     <div className="col-span-2 md:col-span-1">
-                                        <InputLabel
+                                    <InputLabel
                                             htmlFor="c_origin"
                                             value="Origem"
                                         />
@@ -205,14 +197,20 @@ export default function NewSheet() {
                                             <option value="">
                                                 Selecione uma origem
                                             </option>
-                                            {origins.map((origins, index) => (
-                                                <option
-                                                    key={index}
-                                                    value={origins}
-                                                >
-                                                    {origins}
+                                            {origins && origins.length > 0 ? (
+                                                origins.map((origin) => (
+                                                    <option
+                                                        key={origin.id}
+                                                        value={origin.name}
+                                                    >
+                                                        {origin.name}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>
+                                                    Carregando origens...
                                                 </option>
-                                            ))}
+                                            )}
                                         </select>
                                     </div>
                                     {/* Classes */}
@@ -237,14 +235,20 @@ export default function NewSheet() {
                                             <option value="">
                                                 Selecione uma classe
                                             </option>
-                                            {classes.map((classes, index) => (
-                                                <option
-                                                    key={index}
-                                                    value={classes}
-                                                >
-                                                    {classes}
+                                            {classes && classes.length > 0 ? (
+                                                classes.map((classe) => (
+                                                    <option
+                                                        key={classe.id}
+                                                        value={classe.name}
+                                                    >
+                                                        {classe.name}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>
+                                                    Carregando classes...
                                                 </option>
-                                            ))}
+                                            )}
                                         </select>
                                     </div>
                                 </div>

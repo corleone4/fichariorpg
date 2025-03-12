@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CharacterClass;
+use App\Models\CharacterOrigins;
+use App\Models\CharacterRaces;
 use Illuminate\Http\Request;
 use App\Models\CharacterSheet;
 
@@ -9,9 +12,6 @@ class NewSheetController extends Controller
 {
     public function create(Request $request)
     {
-        // Debug: Exibir os dados recebidos
-        \Log::info('Dados recebidos:', $request->all());
-
         // Validação dos dados
         $validated = $request->validate([
             'c_name' => 'required|string|max:255',
@@ -40,7 +40,12 @@ class NewSheetController extends Controller
 
         return redirect()->route("dashboard")->with('success', 'Ficha criada com sucesso!');
     }
-
+    public function load(){
+        $classes = CharacterClass::all();
+        $origins = CharacterOrigins::all();
+        $races = CharacterRaces::all();
+        return inertia('NewSheet', ['classes' => $classes, 'origins' => $origins, 'races' => $races]);
+    }
     public function index()
     {
         $sheets = CharacterSheet::all(); // Busca todas as fichas
