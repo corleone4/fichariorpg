@@ -8,7 +8,7 @@ export default function Sheets({ sheets }) {
             <div className="p-6 flex flex-col items-center">
                 <div className="w-full max-w-6xl bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
                     <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-6 text-center">
-                        Fichas
+                        Agentes
                     </h1>
 
                     {/* Lista de fichas */}

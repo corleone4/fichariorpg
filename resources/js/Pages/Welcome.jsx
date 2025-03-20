@@ -1,23 +1,12 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import Dropdown from "@/Components/Dropdown";
 import Modal from "@/Components/Modal";
-import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Head, Link } from "@inertiajs/react";
-import AOS from "aos";
+import { Head, Link} from "@inertiajs/react";
 import React, { useState } from "react";
+import Footer from "@/Components/Footer";
+import DropdownProfile from "@/Components/DropdownProfile";
 
 export default function Welcome({ auth }) {
-    const handleImageError = () => {
-        document
-            .getElementById("screenshot-container")
-            ?.classList.add("!hidden");
-        document.getElementById("docs-card")?.classList.add("!row-span-1");
-        document
-            .getElementById("docs-card-content")
-            ?.classList.add("!flex-row");
-        document.getElementById("background")?.classList.add("!hidden");
-    };
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState("");
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -54,12 +43,15 @@ export default function Welcome({ auth }) {
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
                             {auth.user ? (
-                                <Link
-                                    href={route("dashboard")}
-                                    className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                >
-                                    Dashboard
-                                </Link>
+                                <>
+                                    <DropdownProfile/>
+                                    <Link
+                                        href={route("dashboard")}
+                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                    >
+                                        Dashboard
+                                    </Link>
+                                </>
                             ) : (
                                 <>
                                     <Link
@@ -139,10 +131,10 @@ export default function Welcome({ auth }) {
                     <div className="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">
                         <div className="px-4">
                             <div className="text-base font-medium text-gray-800 dark:text-gray-200">
-                                Usuário
+                                {/* {user.name} */}
                             </div>
                             <div className="text-sm font-medium text-gray-500">
-                                Email
+                                {/* {user.email} */}
                             </div>
                         </div>
 
@@ -162,29 +154,26 @@ export default function Welcome({ auth }) {
                 </div>
             </nav>
 
-            <div className="bg-gray-100 min-h-screen">
+            <div className="bg-slate-950 min-h-screen">
                 <div className="w-full">
                     <div
-                        className="relative w-full h-[50vh] bg-cover bg-center"
+                        className="relative w-full h-[92vh] bg-cover bg-center"
                         style={{ backgroundImage: "url('./img/rpg_mesa.jpg')" }}
                     >
                         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                             <h2 className="text-white text-5xl font-extrabold">
-                                Ficha de RPG online para Phantasiae et Conceptus
+                                Criador de fichas de agentes para RPG de mesa.
                             </h2>
                         </div>
                     </div>
                 </div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <section
-                        className="text-center py-12 sm:py-6"
-                        data-aos="zoom-in"
-                    >
-                        <h2 className="text-4xl font-extrabold text-gray-800 mb-8">
+                <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
+                    <section className="text-center py-24" data-aos="zoom-in">
+                        <h2 className="text-4xl font-extrabold text-gray-200 mb-8">
                             Este é um site com o propósito de ser um criador de
                             fichas
                         </h2>
-                        <p className="text-lg text-gray-600 mb-12">
+                        <p className="text-lg text-gray-500 mb-12">
                             De forma mais automática e simplificada, aumentando
                             a praticidade
                         </p>
@@ -254,142 +243,7 @@ export default function Welcome({ auth }) {
                         </div>
                     </Modal>
                 </div>
-                <footer className="bg-neutral-100 text-center dark:bg-neutral-600 lg:text-left">
-                    <div className="container p-6">
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4">
-                            {/* <!--First links section--> */}
-                            <div className="mb-6">
-                                <h5 className="mb-2.5 font-bold uppercase text-neutral-800 dark:text-neutral-200">
-                                    {/* Links */}
-                                </h5>
-
-                                {/* <ul className="mb-0 list-none">
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 1
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 2
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 3
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 4
-                                        </a>
-                                    </li>
-                                </ul> */}
-                            </div>
-
-                            {/* <!--Second links section--> */}
-                            {/* <div className="mb-6">
-                                <h5 className="mb-2.5 font-bold uppercase text-neutral-800 dark:text-neutral-200">
-                                    Links
-                                </h5>
-
-                                <ul className="mb-0 list-none">
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 1
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 2
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 3
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 4
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div> */}
-
-                            {/* <!--Third links section--> */}
-                            {/* <div className="mb-6">
-                                <h5 className="mb-2.5 font-bold uppercase text-neutral-800 dark:text-neutral-200">
-                                    Links
-                                </h5>
-
-                                <ul className="mb-0 list-none">
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 1
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 2
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 3
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 4
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div> */}
-
-                            {/* <!--Fourth links section--> */}
-                            {/* <div className="mb-6">
-                                <h5 className="mb-2.5 font-bold uppercase text-neutral-800 dark:text-neutral-200">
-                                    Links
-                                </h5>
-
-                                <ul className="mb-0 list-none">
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 1
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 2
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 3
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="text-neutral-800 dark:text-neutral-200">
-                                            Link 4
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div> */}
-                        </div>
-                    </div>
-
-                    {/* <!--Copyright section--> */}
-                    <div className="bg-neutral-200 p-4 text-center text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200">
-                        © 2023 Copyright:
-                        <a
-                            className="text-neutral-800 dark:text-neutral-400"
-                            href="https://tw-elements.com/"
-                        >
-                            TW Elements
-                        </a>
-                    </div>
-                </footer>
+                <Footer />
             </div>
         </>
     );
