@@ -7,22 +7,6 @@ import Footer from "@/Components/Footer";
 import DropdownProfile from "@/Components/DropdownProfile";
 
 export default function Welcome({ auth }) {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalContent, setModalContent] = useState("");
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-
-    const openModal = (content) => {
-        setModalContent(content);
-        setModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setModalOpen(false);
-    };
-
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
-    };
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -157,14 +141,27 @@ export default function Welcome({ auth }) {
             <div className="bg-slate-950 min-h-screen">
                 <div className="w-full">
                     <div
-                        className="relative w-full h-[92vh] bg-cover bg-center"
-                        style={{ backgroundImage: "url('./img/rpg_mesa.jpg')" }}
+                        className="w-full h-[92vh] flex bg-black gap-2"
                     >
-                        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                        <div className="flex flex-col justify-start items-center w-[50vw]">
+                            <div className="flex flex-col justify-end py-2 h-1/2 items-center">
+                                <h2 className="text-white w-2/3 text-start text-6xl font-extrabold">
+                                    Criador de fichas de agentes para RPG de mesa.
+                                </h2>
+                            </div>
+                            <div className="flex flex-col justify-start w-full h-1/2 items-center">
+                                <h2 className="text-gray-300 w-2/3 py-6 text-2xl font-regular">
+                                    Um criador de fichas inteligente para otimizar a sua experiência!
+                                </h2>
+                            </div>
+                            
+                        </div>
+                        <div className="px-20 py-10 w-[50vw]">
                             <h2 className="text-white text-5xl font-extrabold">
-                                Criador de fichas de agentes para RPG de mesa.
+                                <img src={"./img/rpg-vector.png"}/>
                             </h2>
                         </div>
+                        
                     </div>
                 </div>
                 <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
@@ -193,14 +190,8 @@ export default function Welcome({ auth }) {
                                 </p>
                             </div>
 
-                            {/* Card 2 */}
                             <div
                                 className="cursor-pointer max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all"
-                                onClick={() =>
-                                    openModal(
-                                        "Conheça nossa nova coleção exclusiva!"
-                                    )
-                                }
                             >
                                 <h3 className="text-xl font-semibold text-gray-800">
                                     Possibilidade de atualizações
@@ -212,7 +203,6 @@ export default function Welcome({ auth }) {
                                 </p>
                             </div>
 
-                            {/* Card 3 */}
                             <div className="cursor-pointer max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all">
                                 <h3 className="text-xl font-semibold text-gray-800">
                                     Sem custos
@@ -225,23 +215,6 @@ export default function Welcome({ auth }) {
                             </div>
                         </div>
                     </section>
-                    {/* Modal */}
-                    <Modal show={modalOpen} onClose={closeModal}>
-                        <div className="p-8">
-                            <h2 className="text-2xl font-semibold mb-4">
-                                Detalhes do Produto
-                            </h2>
-                            <p>{modalContent}</p>
-                            <div className="mt-4">
-                                <button
-                                    onClick={closeModal}
-                                    className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-500 transition-all duration-300"
-                                >
-                                    Fechar
-                                </button>
-                            </div>
-                        </div>
-                    </Modal>
                 </div>
                 <Footer />
             </div>
