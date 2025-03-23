@@ -3,6 +3,8 @@
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NewSheetController;
+use App\Http\Controllers\SheetController;
+use App\Models\CharacterSheet;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 
@@ -18,26 +20,25 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'sheets' => CharacterSheet::all() ?? [],
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::get('/new_sheet', function () {
-//     return Inertia::render('NewSheet');
-// })->middleware(['auth', 'verified'])->name("new_sheet");
-
-Route::get('/sheets', [NewSheetController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('sheets');
 
 Route::get('/classes', function () {
     return Inertia::render('Classes');
 })->middleware(['auth', 'verified'])->name('classes');
 
-Route::get('/new_sheet', [NewSheetController::class, 'load'])->name('new_sheet');
+Route::get('/new_sheet', [SheetController::class, 'load'])
+    ->name('new_sheet');
 
-Route::post('/sheet_create', [NewSheetController::class, 'create'])
+Route::post('/sheet_create', [SheetController::class, 'create'])
     ->middleware(['auth', 'verified'])
     ->name('sheets.create');
+
+Route::get('/sheets_index/{id}', [SheetController::class, 'show'])
+    ->middleware(['auth'])
+    ->name('sheets.show');
 
 Route::post('/classes_create', [ClassController::class, 'create'])
     ->middleware(['auth', 'verified'])

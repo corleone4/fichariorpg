@@ -1,5 +1,4 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import Dropdown from "@/Components/Dropdown";
 import DropdownProfile from "@/Components/DropdownProfile";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
@@ -14,11 +13,11 @@ export default function AuthenticatedLayout({ header, children }) {
 
     const navItems = [
         { id: 1, name: "Dashboard", route: "dashboard", active: "dashboard" },
-        { id: 2, name: "Agentes", route: "sheets", active: "sheets" },
+        // { id: 2, name: "Agentes", route: "sheets", active: "sheets" },
     ];
 
     return (
-        <div className="min-h-screen bg-slate-950">
+        <div className="min-h-screen bg-stone-950">
             <nav className="border-b border-gray-700 bg-slate-900">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">

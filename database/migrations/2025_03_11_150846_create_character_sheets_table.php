@@ -18,10 +18,9 @@ return new class extends Migration {
             $table->integer('c_str');
             $table->integer('c_dex');
             $table->integer('c_vig');
-            $table->integer('c_dis');
-            $table->integer('c_know');
-            $table->integer('c_cat');
-            $table->integer('c_spi');
+            $table->integer('c_int');
+            $table->integer('c_wisd');
+            $table->integer('c_char');
             $table->timestamps();
         });
     }

@@ -4,11 +4,10 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, useForm } from "@inertiajs/react";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 
 export default function NewSheet({ classes, origins, races }) {
-    const [remainingPoints, setRemainingPoints] = useState(30);
-
+    const [remainingPoints, setRemainingPoints] = useState(20);
     const { data, setData, post, processing, errors, reset } = useForm({
         c_name: "",
         c_age: "",
@@ -19,294 +18,196 @@ export default function NewSheet({ classes, origins, races }) {
         c_str: 10,
         c_dex: 10,
         c_vig: 10,
-        c_dis: 10,
-        c_know: 10,
-        c_cat: 10,
-        c_spi: 10,
+        c_int: 10,
+        c_wisd: 10,
+        c_char: 10,
     });
 
-    // const races = [
-    //     "Humano",
-    //     "Anão",
-    //     "Dahllan",
-    //     "Elfo",
-    //     "Goblin",
-    //     "Lefou",
-    //     "Minotauro",
-    //     "Qareen",
-    //     "Golem",
-    //     "Hynne",
-    //     "Kliren",
-    //     "Medusa",
-    //     "Osteon",
-    //     "Sereia/Tritão",
-    //     "Sílfide",
-    //     "Suraggels (Aggelus)",
-    //     "Suraggels (Sulfure)",
-    //     "Trog",
-    // ];
+    const getAttributeCost = (value) => {
+        const costTable = {
+            8: -2, 9: -1, 10: 0, 11: 1, 12: 2, 
+            13: 3, 14: 4, 15: 6, 16: 8, 17: 11, 18: 14
+        };
+        return costTable[value] || 0;
+    };
+
+    useEffect(() => {
+        const spentPoints =
+            getAttributeCost(data.c_str) +
+            getAttributeCost(data.c_dex) +
+            getAttributeCost(data.c_vig) +
+            getAttributeCost(data.c_int) +
+            getAttributeCost(data.c_wisd) +
+            getAttributeCost(data.c_char);
+
+        setRemainingPoints(20 - spentPoints);
+    }, [data]);
+
+    const handleChange = (attr, value) => {
+        let newValue = parseInt(value) || 10;
+        if (newValue < 8) newValue = 8;
+        if (newValue > 18) newValue = 18;
+        setData(attr, newValue);
+    };
+
+    const calculateModifier = (value) => Math.floor((value - 10) / 2);
 
     const submit = (e) => {
-        e.preventDefault();
-        post(route("sheets.create"), {
-            onFinish: () => reset(),
-        });
+        if(remainingPoints >=0){
+            e.preventDefault();
+            post(route("sheets.create"), {
+                onFinish: () => reset(),
+            });
+        } else {
+            alert("Verifique os pontos gastos!");
+        }
     };
 
     return (
         <AuthenticatedLayout>
-            <Head title="Nova ficha" />
-            <h1 className="text-2xl mt-6 font-bold text-gray-800 dark:text-gray-200 mb-6 text-center">
-                Criar Nova Ficha
-            </h1>
-            <div className="max-w-6xl mx-auto mt-6 p-6 bg-white dark:bg-slate-800 dark:text-gray-300 shadow-lg rounded-lg">
-                <form onSubmit={submit} className="w-full">
-                    <div className="flex flex-col md:flex-row gap-6">
-                        {/* Coluna esquerda */}
-                        <div className="w-full md:w-1/2">
-                            <div className="w-full">
-                                {/* Nome */}
-                                <InputLabel
-                                    htmlFor="c_name"
-                                    value="Nome do seu personagem"
-                                />
-                                <TextInput
-                                    id="c_name"
-                                    type="text"
-                                    name="c_name"
-                                    value={data.c_name}
-                                    className="mt-1 w-full"
-                                    onChange={(e) =>
-                                        setData("c_name", e.target.value)
-                                    }
-                                    required
-                                />
-                                <InputError
-                                    message={errors.c_name}
-                                    className="mt-2"
-                                />
-
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                                    {/* Idade */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="c_age"
-                                            value="Idade"
-                                        />
-                                        <TextInput
-                                            id="c_age"
-                                            type="text"
-                                            name="c_age"
-                                            value={data.c_age}
-                                            className="mt-1 w-full"
-                                            onChange={(e) =>
-                                                setData("c_age", e.target.value)
-                                            }
-                                            required
-                                        />
-                                        <InputError
-                                            message={errors.c_age}
-                                            className="mt-2"
-                                        />
-                                    </div>
-
-                                    {/* Nível */}
-                                    <div>
-                                        <InputLabel
-                                            htmlFor="c_level"
-                                            value="Nível"
-                                        />
-                                        <TextInput
-                                            id="c_level"
-                                            type="text"
-                                            name="c_level"
-                                            value={data.c_level}
-                                            className="mt-1 w-full"
-                                            onChange={(e) =>
-                                                setData(
-                                                    "c_level",
-                                                    e.target.value
-                                                )
-                                            }
-                                            required
-                                        />
-                                        <InputError
-                                            message={errors.c_level}
-                                            className="mt-2"
-                                        />
-                                    </div>
-
-                                    {/* Raça */}
-                                    <div className="col-span-2 md:col-span-1">
-                                    <InputLabel
-                                            htmlFor="c_race"
-                                            value="Raça"
-                                        />
-                                        <select
-                                            id="c_race"
-                                            name="c_race"
-                                            value={data.c_race}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "c_race",
-                                                    e.target.value
-                                                )
-                                            }
-                                            className="mt-1 w-full border-gray-300 dark:border-gray-400 dark:text-gray-400 dark:focus:dark:text-gray-500 dark:bg-transparent rounded-md shadow-sm"
-                                            required
-                                        >
-                                            <option value="">
-                                                Selecione uma raça
-                                            </option>
-                                            {races && races.length > 0 ? (
-                                                races.map((race) => (
-                                                    <option
-                                                        key={race.id}
-                                                        value={race.name}
-                                                    >
-                                                        {race.name}
-                                                    </option>
-                                                ))
-                                            ) : (
-                                                <option disabled>
-                                                    Carregando raças...
-                                                </option>
-                                            )}
-                                        </select>
-                                    </div>
-
-                                    {/* Origem */}
-                                    <div className="col-span-2 md:col-span-1">
-                                    <InputLabel
-                                            htmlFor="c_origin"
-                                            value="Origem"
-                                        />
-                                        <select
-                                            id="c_origin"
-                                            name="c_origin"
-                                            value={data.c_origin}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "c_origin",
-                                                    e.target.value
-                                                )
-                                            }
-                                            className="mt-1 w-full border-gray-300 dark:border-gray-400 dark:text-gray-400 dark:focus:dark:text-gray-500 dark:bg-transparent rounded-md shadow-sm"
-                                            required
-                                        >
-                                            <option value="">
-                                                Selecione uma origem
-                                            </option>
-                                            {origins && origins.length > 0 ? (
-                                                origins.map((origin) => (
-                                                    <option
-                                                        key={origin.id}
-                                                        value={origin.name}
-                                                    >
-                                                        {origin.name}
-                                                    </option>
-                                                ))
-                                            ) : (
-                                                <option disabled>
-                                                    Carregando origens...
-                                                </option>
-                                            )}
-                                        </select>
-                                    </div>
-                                    {/* Classes */}
-                                    <div className="col-span-2 md:col-span-1">
-                                        <InputLabel
-                                            htmlFor="c_class"
-                                            value="Classe"
-                                        />
-                                        <select
-                                            id="c_class"
-                                            name="c_class"
-                                            value={data.c_class}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "c_class",
-                                                    e.target.value
-                                                )
-                                            }
-                                            className="mt-1 w-full border-gray-300 dark:border-gray-400 dark:text-gray-400 dark:focus:dark:text-gray-500 dark:bg-transparent rounded-md shadow-sm"
-                                            required
-                                        >
-                                            <option value="">
-                                                Selecione uma classe
-                                            </option>
-                                            {classes && classes.length > 0 ? (
-                                                classes.map((classe) => (
-                                                    <option
-                                                        key={classe.id}
-                                                        value={classe.name}
-                                                    >
-                                                        {classe.name}
-                                                    </option>
-                                                ))
-                                            ) : (
-                                                <option disabled>
-                                                    Carregando classes...
-                                                </option>
-                                            )}
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+            <Head title="Nova Ficha" />
+            <div className="max-w-4xl mx-auto mt-10 p-8 bg-gray-900 text-gray-100 shadow-2xl rounded-lg border border-gray-700">
+                <h1 className="text-3xl font-bold text-center text-indigo-400 mb-6">
+                    Criar Nova Ficha
+                </h1>
+                <form onSubmit={submit} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <InputLabel
+                                htmlFor="c_name"
+                                value="Nome do Personagem"
+                            />
+                            <TextInput
+                                id="c_name"
+                                type="text"
+                                value={data.c_name}
+                                className="w-full mt-2"
+                                onChange={(e) =>
+                                    setData("c_name", e.target.value)
+                                }
+                                required
+                            />
+                            <InputError
+                                message={errors.c_name}
+                                className="mt-2"
+                            />
                         </div>
-
-                        {/* Coluna direita */}
-                        <div className="w-full md:w-1/2">
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                                {[
-                                    { id: "c_str", name: "Força" },
-                                    { id: "c_dex", name: "Destreza" },
-                                    { id: "c_vig", name: "Vigor" },
-                                    { id: "c_dis", name: "Discernimento" },
-                                    { id: "c_know", name: "Conhecimento" },
-                                    { id: "c_cat", name: "Cativação" },
-                                    { id: "c_spi", name: "Espírito" },
-                                ].map((attr) => (
-                                    <div key={attr.id} className="w-full">
-                                        <label
-                                            htmlFor={attr.id}
-                                            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                                        >
-                                            {attr.name}
-                                        </label>
-                                        <TextInput
-                                            id={attr.id}
-                                            type="number"
-                                            name={attr.id}
-                                            value={data[attr.id]}
-                                            onChange={(e) => {
-                                                const value =
-                                                    parseInt(e.target.value) ||
-                                                    10;
-                                                setData(attr.id, value);
-
-                                                if (value === 12) {
-                                                    setRemainingPoints(
-                                                        (prev) => prev - 2
-                                                    );
-                                                }
-                                            }}
-                                            className="w-full text-center text-xl h-20 p-2 appearance-none"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="grid gap-4">
-                                <p> Pontos restantes: {remainingPoints}</p>
-                            </div>
+                        <div>
+                            <InputLabel htmlFor="c_age" value="Idade" />
+                            <TextInput
+                                id="c_age"
+                                type="text"
+                                value={data.c_age}
+                                className="w-full mt-2"
+                                onChange={(e) =>
+                                    setData("c_age", e.target.value)
+                                }
+                                required
+                            />
+                            <InputError
+                                message={errors.c_age}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div>
+                            <InputLabel htmlFor="c_level" value="Nível" />
+                            <TextInput
+                                id="c_level"
+                                type="text"
+                                value={data.c_level}
+                                className="w-full mt-2"
+                                onChange={(e) =>
+                                    setData("c_level", e.target.value)
+                                }
+                                required
+                            />
+                            <InputError
+                                message={errors.c_level}
+                                className="mt-2"
+                            />
                         </div>
                     </div>
 
-                    {/* Botão de envio */}
-                    <div className="flex justify-center mt-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                            { id: "c_race", name: "Raça", options: races },
+                            {
+                                id: "c_origin",
+                                name: "Origem",
+                                options: origins,
+                            },
+                            { id: "c_class", name: "Classe", options: classes },
+                        ].map((field) => (
+                            <div key={field.id}>
+                                <InputLabel
+                                    htmlFor={field.id}
+                                    value={field.name}
+                                />
+                                <select
+                                    id={field.id}
+                                    value={data[field.id]}
+                                    onChange={(e) =>
+                                        setData(field.id, e.target.value)
+                                    }
+                                    className="w-full mt-2 p-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-300 focus:ring focus:ring-indigo-400"
+                                    required
+                                >
+                                    <option value="">Selecione</option>
+                                    {field.options &&
+                                    field.options.length > 0 ? (
+                                        field.options.map((option) => (
+                                            <option
+                                                key={option.id}
+                                                value={option.name}
+                                            >
+                                                {option.name}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        <option disabled>Carregando...</option>
+                                    )}
+                                </select>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                        {[
+                            { name: "Força", attr: "c_str" },
+                            { name: "Destreza", attr: "c_dex" },
+                            { name: "Vigor", attr: "c_vig" },
+                            { name: "Inteligência", attr: "c_int" },
+                            { name: "Sabedoria", attr: "c_wisd" },
+                            { name: "Carisma", attr: "c_char" },
+                        ].map(({ attr, name }) => (
+                            <div
+                                key={attr}
+                                className="bg-gray-800 p-4 rounded-lg shadow-md"
+                            >
+                                <InputLabel
+                                    htmlFor={attr}
+                                    value={name.toUpperCase()}
+                                />
+                                <TextInput
+                                    id={attr}
+                                    type="number"
+                                    value={data[attr]}
+                                    onChange={(e) => handleChange(attr, e.target.value)}
+                                    className="w-full text-center text-xl mt-2 bg-gray-700 border-none"
+                                />
+                                <p className="text-sm text-gray-400 mt-1">
+                                    Modificador: {calculateModifier(data[attr])}
+                                </p>
+                            </div>
+                        ))}
+                        <h2 className="text-lg font-semibold text-center text-indigo-400">
+                            Pontos Restantes: {remainingPoints}
+                        </h2>
+                    </div>
+
+                    <div className="flex justify-center">
                         <PrimaryButton
                             type="submit"
-                            className="w-full md:w-auto"
+                            className="px-6 py-3 text-lg bg-indigo-500 hover:bg-indigo-600 transition rounded-lg shadow-md"
                             disabled={processing}
                         >
                             Criar Ficha

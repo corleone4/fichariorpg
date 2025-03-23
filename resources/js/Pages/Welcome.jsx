@@ -1,167 +1,128 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import Modal from "@/Components/Modal";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Head, Link} from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import React, { useState } from "react";
 import Footer from "@/Components/Footer";
 import DropdownProfile from "@/Components/DropdownProfile";
+import { motion } from "motion/react";
+import { Button } from "@headlessui/react";
 
 export default function Welcome({ auth }) {
-
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
+    const [color, setColor] = useState(false);
+    const changeColor = () => {
+        if (window.scrollY >= 90) {
+            setColor(true);
+        } else {
+            setColor(false);
+        }
+    };
+    window.addEventListener("scroll", changeColor);
     return (
         <>
             <Head title="Welcome" />
-            <nav className="border-b border-gray-300 bg-white dark:border-gray-700 dark:bg-neutral-800">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 justify-between">
-                        <div className="flex">
-                            <div className="flex shrink-0 items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                                </Link>
-                            </div>
-                        </div>
+            <header
+            className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+                color ? "bg-gray-800 border-gray-700 shadow-md" : "bg-transparent border-gray-200"
+            }`}
+        >
+            <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between items-center h-16">
+                    <Link href="/">
+                        <ApplicationLogo className="h-9 w-auto text-gray-800 dark:text-gray-200" />
+                    </Link>
 
-                        <div className="hidden sm:ms-6 sm:flex sm:items-center">
-                            {auth.user ? (
-                                <>
-                                    <DropdownProfile/>
-                                    <Link
-                                        href={route("dashboard")}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Dashboard
-                                    </Link>
-                                </>
-                            ) : (
-                                <>
-                                    <Link
-                                        href={route("login")}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Entrar
-                                    </Link>
-                                    <Link
-                                        href={route("register")}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Registrar
-                                    </Link>
-                                </>
-                            )}
-                        </div>
-
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState
-                                    )
-                                }
-                                className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
-                            >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
+                    <div className="hidden sm:flex items-center space-x-4">
+                        {auth.user ? (
+                            <>
+                                <DropdownProfile />
+                                <Link
+                                    href={route("dashboard")}
+                                    className="px-3 py-2 text-white hover:text-gray-300"
                                 >
-                                    <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? "inline-flex"
-                                                : "hidden"
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? "inline-flex"
-                                                : "hidden"
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    className={
-                        (showingNavigationDropdown ? "block" : "hidden") +
-                        " sm:hidden"
-                    }
-                >
-                    <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
+                                    Dashboard
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    href={route("login")}
+                                    className="px-3 py-2 text-white hover:text-gray-300"
+                                >
+                                    Entrar
+                                </Link>
+                                <Link
+                                    href={route("register")}
+                                    className="px-3 py-2 text-white hover:text-gray-300"
+                                >
+                                    Registrar
+                                </Link>
+                            </>
+                        )}
                     </div>
 
-                    <div className="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-gray-800 dark:text-gray-200">
-                                {/* {user.name} */}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {/* {user.email} */}
-                            </div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route("profile.edit")}>
-                                Perfil
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route("logout")}
-                                as="button"
-                            >
-                                Sair
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
+                    <button
+                        onClick={() => setShowingNavigationDropdown(!showingNavigationDropdown)}
+                        className="sm:hidden p-2 text-gray-400 hover:bg-gray-100 rounded-md"
+                    >
+                        <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path
+                                className={!showingNavigationDropdown ? "inline-flex" : "hidden"}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M4 6h16M4 12h16M4 18h16"
+                            />
+                            <path
+                                className={showingNavigationDropdown ? "inline-flex" : "hidden"}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </button>
                 </div>
             </nav>
-
+            </header>
             <div className="bg-slate-950 min-h-screen">
                 <div className="w-full">
-                    <div
-                        className="w-full h-[92vh] flex bg-black gap-2"
-                    >
+                    <div className="w-full h-[100vh] flex bg-black gap-2">
                         <div className="flex flex-col justify-start items-center w-[50vw]">
                             <div className="flex flex-col justify-end py-2 h-1/2 items-center">
                                 <h2 className="text-white w-2/3 text-start text-6xl font-extrabold">
-                                    Criador de fichas de agentes para RPG de mesa.
+                                    Criador de fichas de agentes para RPG de
+                                    mesa.
                                 </h2>
                             </div>
                             <div className="flex flex-col justify-start w-full h-1/2 items-center">
                                 <h2 className="text-gray-300 w-2/3 py-6 text-2xl font-regular">
-                                    Um criador de fichas inteligente para otimizar a sua experiência!
+                                    Um criador de fichas inteligente para
+                                    otimizar a sua experiência!
                                 </h2>
+
+                                <Button></Button>
                             </div>
-                            
                         </div>
                         <div className="px-20 py-10 w-[50vw]">
                             <h2 className="text-white text-5xl font-extrabold">
-                                <img src={"./img/rpg-vector.png"}/>
+                                <motion.div
+                                    animate={{
+                                        y: [0, 20, 0],
+                                    }}
+                                    transition={{
+                                        duration: 4,
+                                        repeat: Infinity,
+                                        repeatType: "loop",
+                                        ease: "easeInOut",
+                                    }}
+                                >
+                                    <img src={"./img/rpg-vector.png"} />
+                                </motion.div>
                             </h2>
                         </div>
-                        
                     </div>
                 </div>
                 <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
@@ -190,9 +151,7 @@ export default function Welcome({ auth }) {
                                 </p>
                             </div>
 
-                            <div
-                                className="cursor-pointer max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all"
-                            >
+                            <div className="cursor-pointer max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all">
                                 <h3 className="text-xl font-semibold text-gray-800">
                                     Possibilidade de atualizações
                                 </h3>

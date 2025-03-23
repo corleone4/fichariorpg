@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\CharacterClass;
 use App\Models\CharacterOrigins;
 use App\Models\CharacterRaces;
-use Illuminate\Http\Request;
 use App\Models\CharacterSheet;
+use Inertia\Inertia;
+use Illuminate\Http\Request;
 
-class NewSheetController extends Controller
-{
+class SheetController extends Controller
+{   
     public function create(Request $request)
     {
         // Validação dos dados
@@ -23,19 +23,14 @@ class NewSheetController extends Controller
             'c_str' => 'required|integer|min:0|max:20',
             'c_dex' => 'required|integer|min:0|max:20',
             'c_vig' => 'required|integer|min:0|max:20',
-            'c_dis' => 'required|integer|min:0|max:20',
-            'c_know' => 'required|integer|min:0|max:20',
-            'c_cat' => 'required|integer|min:0|max:20',
-            'c_spi' => 'required|integer|min:0|max:20',
+            'c_int' => 'required|integer|min:0|max:20',
+            'c_wisd' => 'required|integer|min:0|max:20',
+            'c_char' => 'required|integer|min:0|max:20',
         ]);
 
-        // Debug: Exibir os dados validados
-        \Log::info('Dados validados:', $validated);
 
-        // Criar ficha
         $character = CharacterSheet::create($validated);
 
-        // Debug: Exibir se foi criado
         \Log::info('Ficha criada:', $character->toArray());
 
         return redirect()->route("dashboard")->with('success', 'Ficha criada com sucesso!');
@@ -48,9 +43,12 @@ class NewSheetController extends Controller
     }
     public function index()
     {
-        $sheets = CharacterSheet::all(); // Busca todas as fichas
-        return inertia('Sheets', ['sheets' => $sheets]); // Retorna os dados para o React
+        $sheets = CharacterSheet::all();
+        return inertia('Sheets', ['sheets' => $sheets]);
     }
-
+    public function show($id)
+    {
+        $sheet = CharacterSheet::findOrFail($id);
+        return Inertia::render('SheetDetail', ['sheet' => $sheet]);
+    }
 }
-
