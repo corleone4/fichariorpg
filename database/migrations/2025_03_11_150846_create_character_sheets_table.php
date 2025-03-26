@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('c_class');
             $table->integer('c_str');
             $table->integer('c_dex');
-            $table->integer('c_vig');
+            $table->integer('c_con');
             $table->integer('c_int');
             $table->integer('c_wisd');
             $table->integer('c_char');

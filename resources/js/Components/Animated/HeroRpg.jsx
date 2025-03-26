@@ -6,13 +6,13 @@ export default function HeroRpg(){
     <div className="hero-section">
       <motion.div
         animate={{
-          y: [0, 20, 0],  // Move para 20px e depois volta para 0px
+          y: [0, 20, 0],
         }}
         transition={{
-          duration: 2,  // Duração de 2 segundos para um ciclo completo
-          repeat: Infinity,  // Faz a animação se repetir infinitamente
-          repeatType: 'loop',  // Define que a animação é do tipo "loop" contínuo
-          ease: 'easeInOut',  // Define a suavidade da animação
+          duration: 2,  
+          repeat: Infinity,
+          repeatType: 'loop',  
+          ease: 'easeInOut', 
         }}
       >
         Flutuando na Hero Section

@@ -5,8 +5,7 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function Navbar() {
-    const user = usePage().props.auth.user;
+export default function Navbar({user}) {
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);

@@ -21,9 +21,4 @@ class ClassController extends Controller
             return redirect()->route("dashboard")->with('success', 'Classe adicionada no sistema com sucesso!');
         endif;
     }
-    public function index()
-    {
-        $classes = CharacterClass::all();
-        return inertia('NewSheet', ['classes' => $classes]);
-    }
 }

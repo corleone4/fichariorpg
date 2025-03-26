@@ -1,21 +1,18 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import { useState } from "react";
-import { usePage } from "@inertiajs/react";
+
 import Navbar from "@/Components/Navbar";
 
-export default function Dashboard({ sheets }) {
+export default function Dashboard({ auth, sheets }) {
     const [openAccordion, setOpenAccordion] = useState(false);
     const sheetCounter = sheets.length;
-    const user = usePage().props.auth.user;
-    const stCounter = [{sheets}];
-
     function handleAccordion() {
         setOpenAccordion((prev) => !prev);
     }
-
+    const user = auth.user
     return (
-        <AuthenticatedLayout header={<Navbar/>}>
+         <AuthenticatedLayout user={user}>
             <Head title="Dashboard" />
             <div className="p-6 flex flex-col items-center">
                 <div
@@ -24,7 +21,7 @@ export default function Dashboard({ sheets }) {
                     <div className="flex justify-center">
                         <div className="justify-center items-center w-[4vw]">
                             <h2 className="text-2xl font-bold text-gray-200 text-center">
-                                {sheetCounter}/6
+                                {sheetCounter ?? 0}/6
                             </h2>
                         </div>
                         <div className="justify-start w-[92vw]">
@@ -54,7 +51,7 @@ export default function Dashboard({ sheets }) {
                                     <div
                                         key={sheet.id}
                                         className="p-4 bg-gray-900 shadow-md rounded-lg"
-                                    >
+                                    >   
                                         <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">
                                             {sheet.c_name}
                                         </h2>

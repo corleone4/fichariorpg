@@ -5,10 +5,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, useForm } from "@inertiajs/react";
 import { useState, useEffect } from "react";
-import { usePage } from "@inertiajs/react";
-import Navbar from "@/Components/Navbar";
-export default function NewSheet({ classes, origins, races }) {
-    const user = usePage().props.auth.user;
+export default function NewSheet({ auth, classes, origins, races }) {
+    const user = auth.user;
     const [remainingPoints, setRemainingPoints] = useState(20);
     const { data, setData, post, processing, errors, reset } = useForm({
         user_id: user.id,
@@ -20,7 +18,7 @@ export default function NewSheet({ classes, origins, races }) {
         c_class: "",
         c_str: 10,
         c_dex: 10,
-        c_vig: 10,
+        c_con: 10,
         c_int: 10,
         c_wisd: 10,
         c_char: 10,
@@ -47,7 +45,7 @@ export default function NewSheet({ classes, origins, races }) {
         const spentPoints =
             getAttributeCost(data.c_str) +
             getAttributeCost(data.c_dex) +
-            getAttributeCost(data.c_vig) +
+            getAttributeCost(data.c_con) +
             getAttributeCost(data.c_int) +
             getAttributeCost(data.c_wisd) +
             getAttributeCost(data.c_char);
@@ -56,9 +54,18 @@ export default function NewSheet({ classes, origins, races }) {
     }, [data]);
 
     const handleChange = (attr, value) => {
-        let newValue = parseInt(value) || 10;
+        if (value === "") {
+            setData(attr, "");
+            return;
+        }
+
+        let newValue = parseInt(value, 10);
+
+        if (isNaN(newValue)) return;
+
         if (newValue < 8) newValue = 8;
         if (newValue > 18) newValue = 18;
+
         setData(attr, newValue);
     };
 
@@ -76,7 +83,7 @@ export default function NewSheet({ classes, origins, races }) {
     };
 
     return (
-        <AuthenticatedLayout header={<Navbar/>}>
+        <AuthenticatedLayout user={user}>
             <Head title="Nova Ficha" />
             <div className="max-w-4xl mx-auto mt-10 p-8 bg-gray-900 text-gray-100 shadow-2xl rounded-lg border border-gray-700">
                 <h1 className="text-3xl font-bold text-center text-indigo-400 mb-6">
@@ -186,7 +193,7 @@ export default function NewSheet({ classes, origins, races }) {
                         {[
                             { name: "Força", attr: "c_str" },
                             { name: "Destreza", attr: "c_dex" },
-                            { name: "Vigor", attr: "c_vig" },
+                            { name: "Constituição", attr: "c_con" },
                             { name: "Inteligência", attr: "c_int" },
                             { name: "Sabedoria", attr: "c_wisd" },
                             { name: "Carisma", attr: "c_char" },
@@ -200,6 +207,7 @@ export default function NewSheet({ classes, origins, races }) {
                                     value={name.toUpperCase()}
                                 />
                                 <TextInput
+                                    min
                                     id={attr}
                                     type="number"
                                     value={data[attr]}

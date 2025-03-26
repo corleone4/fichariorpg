@@ -23,7 +23,7 @@ class SheetController extends Controller
             'c_class' => 'required|string|max:255',
             'c_str' => 'required|integer|min:0|max:20',
             'c_dex' => 'required|integer|min:0|max:20',
-            'c_vig' => 'required|integer|min:0|max:20',
+            'c_con' => 'required|integer|min:0|max:20',
             'c_int' => 'required|integer|min:0|max:20',
             'c_wisd' => 'required|integer|min:0|max:20',
             'c_char' => 'required|integer|min:0|max:20',
@@ -44,8 +44,9 @@ class SheetController extends Controller
     }
     public function index()
     {
-        $sheets = CharacterSheet::all();
-        return inertia('Sheets', ['sheets' => $sheets]);
+        $user = auth()->user();
+        $sheets = $user->characterSheets()->get();
+        return Inertia::render('Dashboard', ['sheets' => $sheets]);
     }
     public function show($id)
     {
