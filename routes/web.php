@@ -37,7 +37,7 @@ Route::post('/sheet_create', [SheetController::class, 'create'])
     ->name('sheets.create');
 
 Route::get('/sheets_index/{id}', [SheetController::class, 'show'])
-    ->middleware(['auth'])
+    ->middleware(['auth', 'verified'])
     ->name('sheets.show');
 
 Route::post('/classes_create', [ClassController::class, 'create'])

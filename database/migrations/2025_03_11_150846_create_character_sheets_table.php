@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('character_sheets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('c_name');
             $table->integer('c_age');
             $table->integer('c_level');

@@ -1,104 +1,138 @@
+import ApplicationLogo from "@/Components/ApplicationLogo";
+import DropdownProfile from "@/Components/DropdownProfile";
+import NavLink from "@/Components/NavLink";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { Link, usePage } from "@inertiajs/react";
+import { useState } from "react";
+
 export default function Navbar() {
+    const user = usePage().props.auth.user;
+
+    const [showingNavigationDropdown, setShowingNavigationDropdown] =
+        useState(false);
+
+    const navItems = [
+        { id: 1, name: "Dashboard", route: "dashboard", active: "dashboard" },
+        // { id: 2, name: "Agentes", route: "sheets", active: "sheets" },
+    ];
+
     return (
-        <nav id="header" className="w-full z-30 top-0 py-1">
-            <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-6 py-3">
-                <label
-                    htmlFor="menu-toggle"
-                    className="cursor-pointer md:hidden block"
-                >
-                    <svg
-                        className="fill-current text-gray-900"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                    >
-                        <title>menu</title>
-                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-                    </svg>
-                </label>
-                <input className="hidden" type="checkbox" id="menu-toggle" />
+        <nav className="bg-slate-900">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="flex h-16 justify-between">
+                    <div className="flex">
+                        <div className="flex shrink-0 items-center">
+                            <Link href="/">
+                                <ApplicationLogo
+                                    image="../img/logo.png"
+                                    className="block h-9 w-auto fill-current text-gray-200"
+                                />
+                            </Link>
+                        </div>
 
-                <div
-                    className="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1"
-                    id="menu"
-                >
-                    <nav>
-                        <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
-                            <li>
-                                <a
-                                    className="inline-block no-underline hover:text-black hover:underline py-2 px-4"
-                                    href="#"
-                                >
-                                    Shop
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    className="inline-block no-underline hover:text-black hover:underline py-2 px-4"
-                                    href="#"
-                                >
-                                    About
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                        <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            {navItems.length > 0 ? (
+                                navItems.map((item) => (
+                                    <NavLink
+                                        key={item.id}
+                                        href={route(item.route)}
+                                        active={route().current(item.active)}
+                                    >
+                                        {item.name}
+                                    </NavLink>
+                                ))
+                            ) : (
+                                <></>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="hidden sm:ms-6 sm:flex sm:items-center">
+                        <div className="relative ms-3">
+                            <DropdownProfile />
+                        </div>
+                    </div>
+
+                    <div className="-me-2 flex items-center sm:hidden">
+                        <button
+                            onClick={() =>
+                                setShowingNavigationDropdown(
+                                    (previousState) => !previousState
+                                )
+                            }
+                            className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
+                        >
+                            <svg
+                                className="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    className={
+                                        !showingNavigationDropdown
+                                            ? "inline-flex"
+                                            : "hidden"
+                                    }
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                                <path
+                                    className={
+                                        showingNavigationDropdown
+                                            ? "inline-flex"
+                                            : "hidden"
+                                    }
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                className={
+                    (showingNavigationDropdown ? "block" : "hidden") +
+                    " sm:hidden"
+                }
+            >
+                <div className="space-y-1 pb-3 pt-2">
+                    <ResponsiveNavLink
+                        href={route("dashboard")}
+                        active={route().current("dashboard")}
+                    >
+                        Dashboard
+                    </ResponsiveNavLink>
                 </div>
 
-                <div className="order-1 md:order-2">
-                    <a
-                        className="flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl "
-                        href="#"
-                    >
-                        <svg
-                            className="fill-current text-gray-800 mr-2"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M5,22h14c1.103,0,2-0.897,2-2V9c0-0.553-0.447-1-1-1h-3V7c0-2.757-2.243-5-5-5S7,4.243,7,7v1H4C3.447,8,3,8.447,3,9v11 C3,21.103,3.897,22,5,22z M9,7c0-1.654,1.346-3,3-3s3,1.346,3,3v1H9V7z M5,10h2v2h2v-2h6v2h2v-2h2l0.002,10H5V10z" />
-                        </svg>
-                        NORDICS
-                    </a>
-                </div>
+                <div className="border-t pb-1 pt-4 border-gray-600">
+                    <div className="px-4">
+                        <div className="text-base font-medium text-gray-200">
+                            {user.name}
+                        </div>
+                        <div className="text-sm font-medium text-gray-300">
+                            {user.email}
+                        </div>
+                    </div>
 
-                <div
-                    className="order-2 md:order-3 flex items-center"
-                    id="nav-content"
-                >
-                    <a
-                        className="inline-block no-underline hover:text-black"
-                        href="#"
-                    >
-                        <svg
-                            className="fill-current hover:text-black"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
+                    <div className="mt-3 space-y-1">
+                        <ResponsiveNavLink href={route("profile.edit")}>
+                            Perfil
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            method="post"
+                            href={route("logout")}
+                            as="button"
                         >
-                            <circle fill="none" cx="12" cy="7" r="3" />
-                            <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
-                        </svg>
-                    </a>
-
-                    <a
-                        className="pl-3 inline-block no-underline hover:text-black"
-                        href="#"
-                    >
-                        <svg
-                            className="fill-current hover:text-black"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8 c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9 h11.112L17.341,14z" />
-                            <circle cx="10.5" cy="18.5" r="1.5" />
-                            <circle cx="17.5" cy="18.5" r="1.5" />
-                        </svg>
-                    </a>
+                            Sair
+                        </ResponsiveNavLink>
+                    </div>
                 </div>
             </div>
         </nav>

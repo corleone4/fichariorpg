@@ -1,26 +1,31 @@
-import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import { useState } from "react";
+import { usePage } from "@inertiajs/react";
+import Navbar from "@/Components/Navbar";
 
 export default function Dashboard({ sheets }) {
     const [openAccordion, setOpenAccordion] = useState(false);
     const sheetCounter = sheets.length;
+    const user = usePage().props.auth.user;
+    const stCounter = [{sheets}];
+
     function handleAccordion() {
-        console.log(openAccordion);
         setOpenAccordion((prev) => !prev);
     }
-    
+
     return (
-        <AuthenticatedLayout>
+        <AuthenticatedLayout header={<Navbar/>}>
             <Head title="Dashboard" />
             <div className="p-6 flex flex-col items-center">
                 <div
                     className={`w-full bg-gray-800 max-w-6xl transition-all rounded-lg shadow-lg p-6`}
                 >
                     <div className="flex justify-center">
-                        <div className="justify-center items-center w-[4vw]"> 
-                            <h2 className="text-2xl font-bold text-gray-200 text-center">{sheetCounter}/6</h2>
+                        <div className="justify-center items-center w-[4vw]">
+                            <h2 className="text-2xl font-bold text-gray-200 text-center">
+                                {sheetCounter}/6
+                            </h2>
                         </div>
                         <div className="justify-start w-[92vw]">
                             <h1 className="text-4xl font-bold text-gray-200 text-center">
@@ -74,11 +79,12 @@ export default function Dashboard({ sheets }) {
                                             </Link>
                                         </div>
                                     </div>
-                                    
                                 ))
                             ) : (
                                 <div className="p-16 bg-gray-900 shadow-md rounded-lg mx-auto">
-                                   <h1 className="text-gray-200">Nenhuma ficha cadastrada.</h1> 
+                                    <h1 className="text-gray-200">
+                                        Nenhuma ficha cadastrada.
+                                    </h1>
                                 </div>
                             )}
                         </div>

@@ -4,11 +4,14 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, useForm } from "@inertiajs/react";
-import { useState, useEffect} from "react";
-
+import { useState, useEffect } from "react";
+import { usePage } from "@inertiajs/react";
+import Navbar from "@/Components/Navbar";
 export default function NewSheet({ classes, origins, races }) {
+    const user = usePage().props.auth.user;
     const [remainingPoints, setRemainingPoints] = useState(20);
     const { data, setData, post, processing, errors, reset } = useForm({
+        user_id: user.id,
         c_name: "",
         c_age: "",
         c_level: "",
@@ -25,8 +28,17 @@ export default function NewSheet({ classes, origins, races }) {
 
     const getAttributeCost = (value) => {
         const costTable = {
-            8: -2, 9: -1, 10: 0, 11: 1, 12: 2, 
-            13: 3, 14: 4, 15: 6, 16: 8, 17: 11, 18: 14
+            8: -2,
+            9: -1,
+            10: 0,
+            11: 1,
+            12: 2,
+            13: 3,
+            14: 4,
+            15: 6,
+            16: 8,
+            17: 11,
+            18: 14,
         };
         return costTable[value] || 0;
     };
@@ -53,7 +65,7 @@ export default function NewSheet({ classes, origins, races }) {
     const calculateModifier = (value) => Math.floor((value - 10) / 2);
 
     const submit = (e) => {
-        if(remainingPoints >=0){
+        if (remainingPoints >= 0) {
             e.preventDefault();
             post(route("sheets.create"), {
                 onFinish: () => reset(),
@@ -64,7 +76,7 @@ export default function NewSheet({ classes, origins, races }) {
     };
 
     return (
-        <AuthenticatedLayout>
+        <AuthenticatedLayout header={<Navbar/>}>
             <Head title="Nova Ficha" />
             <div className="max-w-4xl mx-auto mt-10 p-8 bg-gray-900 text-gray-100 shadow-2xl rounded-lg border border-gray-700">
                 <h1 className="text-3xl font-bold text-center text-indigo-400 mb-6">
@@ -191,7 +203,9 @@ export default function NewSheet({ classes, origins, races }) {
                                     id={attr}
                                     type="number"
                                     value={data[attr]}
-                                    onChange={(e) => handleChange(attr, e.target.value)}
+                                    onChange={(e) =>
+                                        handleChange(attr, e.target.value)
+                                    }
                                     className="w-full text-center text-xl mt-2 bg-gray-700 border-none"
                                 />
                                 <p className="text-sm text-gray-400 mt-1">

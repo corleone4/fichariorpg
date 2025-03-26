@@ -14,6 +14,7 @@ class SheetController extends Controller
     {
         // Validação dos dados
         $validated = $request->validate([
+            'user_id' => 'required|integer|min:1',
             'c_name' => 'required|string|max:255',
             'c_age' => 'required|integer|min:1',
             'c_level' => 'required|integer|min:1',
@@ -49,6 +50,6 @@ class SheetController extends Controller
     public function show($id)
     {
         $sheet = CharacterSheet::findOrFail($id);
-        return Inertia::render('SheetDetail', ['sheet' => $sheet]);
+        return inertia('SheetsDetails', ['sheet' => $sheet]);
     }
 }
