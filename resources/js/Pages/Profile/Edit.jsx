@@ -8,7 +8,7 @@ import Navbar from "@/Components/Navbar";
 export default function Edit({ auth, mustVerifyEmail, status }) {
     const user = auth.user;
     return (
-        <AuthenticatedLayout user={user} header={<h2 className="font-semibold p-4 text-xl text-gray-200">Perfil</h2>}>
+        <AuthenticatedLayout user={user} header={<></>}>
             <Head title="Profile" />
 
             <div className="py-12">

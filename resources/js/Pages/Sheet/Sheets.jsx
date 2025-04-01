@@ -15,7 +15,7 @@ export default function Sheets() {
             </p>
             <div className="mt-4">
                 <Link
-                    href={`/sheets_index/${sheet.id}`}
+                    href={`/sheets/find/${sheet.id}`}
                     className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                 >
                     Acessar Ficha

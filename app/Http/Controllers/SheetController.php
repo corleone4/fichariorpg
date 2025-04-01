@@ -33,14 +33,15 @@ class SheetController extends Controller
         $character = CharacterSheet::create($validated);
 
         \Log::info('Ficha criada:', $character->toArray());
-
+        
         return redirect()->route("dashboard")->with('success', 'Ficha criada com sucesso!');
+
     }
     public function load(){
         $classes = CharacterClass::all();
         $origins = CharacterOrigins::all();
         $races = CharacterRaces::all();
-        return inertia('NewSheet', ['classes' => $classes, 'origins' => $origins, 'races' => $races]);
+        return inertia('Sheet/NewSheet', ['classes' => $classes, 'origins' => $origins, 'races' => $races]);
     }
     public function index()
     {
@@ -51,6 +52,6 @@ class SheetController extends Controller
     public function show($id)
     {
         $sheet = CharacterSheet::findOrFail($id);
-        return inertia('SheetsDetails', ['sheet' => $sheet]);
+        return inertia('Sheet/SheetsDetails', ['sheet' => $sheet]);
     }
 }

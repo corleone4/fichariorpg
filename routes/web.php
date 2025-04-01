@@ -24,21 +24,21 @@ Route::get('/dashboard', [SheetController::class, 'index'])
     ->name('dashboard');
 
 Route::get('/classes', function () {
-    return Inertia::render('Classes');
+    return Inertia::render('Class/Classes');
 })->middleware(['auth', 'verified'])->name('classes');
 
 Route::get('/new_sheet', [SheetController::class, 'load'])
     ->name('new_sheet');
 
-Route::post('/sheet_create', [SheetController::class, 'create'])
+Route::post('/sheet/create', [SheetController::class, 'create'])
     ->middleware(['auth', 'verified'])
     ->name('sheets.create');
 
-Route::get('/sheets_index/{id}', [SheetController::class, 'show'])
+Route::get('/sheets/find/{id}', [SheetController::class, 'show'])
     ->middleware(['auth', 'verified'])
     ->name('sheets.show');
 
-Route::post('/classes_create', [ClassController::class, 'create'])
+Route::post('/classes/create', [ClassController::class, 'create'])
     ->middleware(['auth', 'verified'])
     ->name('classes.create');
 

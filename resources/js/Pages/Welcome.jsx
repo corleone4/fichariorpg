@@ -44,7 +44,7 @@ export default function Welcome({ auth }) {
                         <div className="flex flex-col justify-start items-center w-[50vw]">
                             <div className="flex flex-col justify-end py-2 h-1/2 items-center">
                                 <h2 className="text-white w-2/3 text-start text-6xl font-extrabold">
-                                    Criador de fichas de agentes para RPG de
+                                    Criador de fichas de personagens para RPG de
                                     mesa.
                                 </h2>
                             </div>

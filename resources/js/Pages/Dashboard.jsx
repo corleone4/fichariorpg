@@ -2,8 +2,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import { useState } from "react";
 
-import Navbar from "@/Components/Navbar";
-
 export default function Dashboard({ auth, sheets }) {
     const [openAccordion, setOpenAccordion] = useState(false);
     const sheetCounter = sheets.length;
@@ -69,7 +67,7 @@ export default function Dashboard({ auth, sheets }) {
                                         </p>
                                         <div className="mt-4">
                                             <Link
-                                                href={`/sheets_index/${sheet.id}`}
+                                                href={`/sheets/find/${sheet.id}`}
                                                 className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                                             >
                                                 Acessar Ficha
@@ -91,7 +89,7 @@ export default function Dashboard({ auth, sheets }) {
                                 href={route("new_sheet")}
                                 className="block w-full bg-blue-500 hover:bg-blue-600 text-white text-center text-xl font-semibold px-6 py-4 rounded-lg shadow transition"
                             >
-                                Criar Agente
+                                Criar Novo Personagem
                             </Link>
                         </div>
                     </div>

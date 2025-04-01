@@ -5,6 +5,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, useForm } from "@inertiajs/react";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+
 export default function NewSheet({ auth, classes, origins, races }) {
     const user = auth.user;
     const [remainingPoints, setRemainingPoints] = useState(20);
@@ -72,16 +74,23 @@ export default function NewSheet({ auth, classes, origins, races }) {
     const calculateModifier = (value) => Math.floor((value - 10) / 2);
 
     const submit = (e) => {
+        e.preventDefault();
+    
         if (remainingPoints >= 0) {
-            e.preventDefault();
             post(route("sheets.create"), {
-                onFinish: () => reset(),
+                onSuccess: () => {
+                    reset();
+                    toast.success("Ficha criada com sucesso!");
+                },
+                onError: () => {
+                    toast.error("Erro ao criar a ficha!");
+                },
             });
         } else {
-            alert("Verifique os pontos gastos!");
+            toast.error("Verifique os seus pontos gastos!");
         }
     };
-
+    
     return (
         <AuthenticatedLayout user={user}>
             <Head title="Nova Ficha" />
@@ -207,14 +216,20 @@ export default function NewSheet({ auth, classes, origins, races }) {
                                     value={name.toUpperCase()}
                                 />
                                 <TextInput
-                                    min
                                     id={attr}
                                     type="number"
                                     value={data[attr]}
                                     onChange={(e) =>
+                                        setData(attr, e.target.value)
+                                    }
+                                    onBlur={(e) =>
                                         handleChange(attr, e.target.value)
                                     }
                                     className="w-full text-center text-xl mt-2 bg-gray-700 border-none"
+                                />
+                                <InputError
+                                    message={errors.attr}
+                                    className="mt-2"
                                 />
                                 <p className="text-sm text-gray-400 mt-1">
                                     Modificador: {calculateModifier(data[attr])}

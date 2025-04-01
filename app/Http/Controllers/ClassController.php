@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 class ClassController extends Controller
 {
     public function create(Request $request) {
-        // Validação dos dados
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
@@ -21,4 +20,10 @@ class ClassController extends Controller
             return redirect()->route("dashboard")->with('success', 'Classe adicionada no sistema com sucesso!');
         endif;
     }
+
+    // public function load(){
+    //     $classes = CharacterClass::all();
+    //     return inertia('ViewClasses', ['classes' => $classes]);
+    // }
+
 }
